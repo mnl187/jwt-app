@@ -20,12 +20,14 @@ document.getElementById('decode-btn').addEventListener('click', function() {
     const jwtInput = document.getElementById('jwt-input').value;
     try {
         const decoded = decodeJWT(jwtInput);
-        document.getElementById('output').textContent = JSON.stringify(decoded, null, 2);
+        document.getElementById('header-output').textContent = JSON.stringify(decoded.header, null, 2);
+        document.getElementById('body-output').textContent = JSON.stringify(decoded.payload, null, 2);
     } catch (e) {
         let errorMessage = 'Invalid token: ' + e.message;
         if (e.message === 'Invalid JWT token') {
             errorMessage = 'Nieprawidłowy token: ' + e.message;
         }
-        document.getElementById('output').textContent = errorMessage;
+        document.getElementById('header-output').textContent = errorMessage;
+        document.getElementById('body-output').textContent = '';
     }
 });
