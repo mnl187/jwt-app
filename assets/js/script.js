@@ -22,6 +22,10 @@ document.getElementById('decode-btn').addEventListener('click', function() {
         const decoded = decodeJWT(jwtInput);
         document.getElementById('output').textContent = JSON.stringify(decoded, null, 2);
     } catch (e) {
-        document.getElementById('output').textContent = 'Invalid token: ' + e.message;
+        let errorMessage = 'Invalid token: ' + e.message;
+        if (e.message === 'Invalid JWT token') {
+            errorMessage = 'Nieprawidłowy token: ' + e.message;
+        }
+        document.getElementById('output').textContent = errorMessage;
     }
 });
