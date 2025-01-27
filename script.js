@@ -5,3 +5,23 @@ function base64UrlDecode(str) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
 }
+
+function decodeJWT(token) {
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+        throw new Error('Invalid JWT token');
+    }
+    const header = JSON.parse(base64UrlDecode(parts[0]));
+    const payload = JSON.parse(base64UrlDecode(parts[1]));
+    return { header, payload };
+}
+
+document.getElementById('decode-btn').addEventListener('click', function() {
+    const jwtInput = document.getElementById('jwt-input').value;
+    try {
+        const decoded = decodeJWT(jwtInput);
+        document.getElementById('output').textContent = JSON.stringify(decoded, null, 2);
+    } catch (e) {
+        document.getElementById('output').textContent = 'Invalid token: ' + e.message;
+    }
+});
